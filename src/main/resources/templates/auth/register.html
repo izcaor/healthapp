@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthApp - Registro</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 760px; margin: 2rem auto; padding: 0 1rem; }
+        .card { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; }
+        .row { margin-bottom: 0.8rem; }
+        .error { color: #b00020; }
+        label { display: block; margin-bottom: 0.3rem; }
+        input, select { width: 100%; padding: 0.5rem; }
+        button { padding: 0.6rem 1rem; }
+    </style>
+</head>
+<body>
+<h1>HealthApp</h1>
+<div class="card">
+    <h2>Registro</h2>
+
+    <form th:action="@{/auth/register}" th:object="${registerRequest}" method="post">
+        <div class="row">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" type="text" th:field="*{nombre}" required>
+            <small class="error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></small>
+        </div>
+
+        <div class="row">
+            <label for="email">Email</label>
+            <input id="email" type="email" th:field="*{email}" required>
+            <small class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+        </div>
+
+        <div class="row">
+            <label for="password">Contrasena</label>
+            <input id="password" type="password" th:field="*{password}" required>
+            <small class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+        </div>
+
+        <div class="row">
+            <label for="rol">Rol</label>
+            <select id="rol" th:field="*{rol}">
+                <option value="ROLE_PACIENTE">Paciente</option>
+                <option value="ROLE_MEDICO">Medico</option>
+            </select>
+        </div>
+
+        <div class="row">
+            <small class="error" th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></small>
+        </div>
+
+        <button type="submit">Crear cuenta</button>
+    </form>
+
+    <p>
+        Ya tienes cuenta?
+        <a th:href="@{/auth/login}">Inicia sesion</a>
+    </p>
+</div>
+</body>
+</html>

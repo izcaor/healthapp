@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthApp - Citas (Medico)</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+        .card { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+        .nav form { display: inline-block; margin-right: 1rem; }
+        .filters input, .filters select { margin-right: 0.6rem; }
+        button, .btn { padding: 0.4rem 0.8rem; }
+    </style>
+</head>
+<body>
+<h1>Panel medico - Citas</h1>
+
+<div class="nav">
+    <form th:action="@{/auth/logout}" method="post">
+        <button type="submit">Cerrar sesion</button>
+    </form>
+</div>
+
+<div class="card filters">
+    <form th:action="@{/medico/citas}" method="get">
+        <label>
+            Fecha
+            <input type="date" name="fecha" th:value="${fechaFiltro}">
+        </label>
+
+        <label>
+            Estado
+            <select name="estado">
+                <option value="">Todos</option>
+                <option th:each="estadoItem : ${estados}"
+                        th:value="${estadoItem}"
+                        th:text="${estadoItem}"
+                        th:selected="${estadoFiltro == estadoItem}"></option>
+            </select>
+        </label>
+
+        <button type="submit">Filtrar</button>
+        <a class="btn" th:href="@{/medico/citas}">Limpiar</a>
+    </form>
+</div>
+
+<div class="card">
+    <table>
+        <thead>
+        <tr>
+            <th>Paciente</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Especialidad</th>
+            <th>Estado</th>
+            <th>Descripcion</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(citas)}">
+            <td colspan="6">No hay citas para mostrar.</td>
+        </tr>
+        <tr th:each="cita : ${citas}">
+            <td th:text="${cita.pacienteNombreCompleto}"></td>
+            <td th:text="${cita.fecha}"></td>
+            <td th:text="${cita.hora}"></td>
+            <td th:text="${cita.especialidad}"></td>
+            <td th:text="${cita.estado}"></td>
+            <td th:text="${cita.descripcion}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

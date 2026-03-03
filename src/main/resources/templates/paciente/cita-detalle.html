@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthApp - Detalle Cita</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 760px; margin: 2rem auto; padding: 0 1rem; }
+        .card { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+        .actions form, .actions a { display: inline-block; margin-right: 0.8rem; }
+        button { padding: 0.6rem 1rem; }
+    </style>
+</head>
+<body>
+<h1>Detalle de cita</h1>
+
+<p><a th:href="@{/paciente/citas}">Volver al listado</a></p>
+
+<div class="card">
+    <p><strong>ID:</strong> <span th:text="${cita.id}"></span></p>
+    <p><strong>Fecha:</strong> <span th:text="${cita.fecha}"></span></p>
+    <p><strong>Hora:</strong> <span th:text="${cita.hora}"></span></p>
+    <p><strong>Especialidad:</strong> <span th:text="${cita.especialidad}"></span></p>
+    <p><strong>Descripcion:</strong> <span th:text="${cita.descripcion}"></span></p>
+    <p><strong>Estado:</strong> <span th:text="${cita.estado}"></span></p>
+</div>
+
+<div class="actions">
+    <a th:href="@{/paciente/citas/{id}/editar(id=${cita.id})}">Editar cita</a>
+
+    <form th:action="@{/paciente/citas/{id}/cancelar(id=${cita.id})}" method="post">
+        <button type="submit">Cancelar cita</button>
+    </form>
+</div>
+</body>
+</html>

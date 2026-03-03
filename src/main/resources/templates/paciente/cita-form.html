@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${editing} ? 'Editar cita' : 'Nueva cita'">Formulario cita</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 760px; margin: 2rem auto; padding: 0 1rem; }
+        .card { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; }
+        .row { margin-bottom: 0.8rem; }
+        .error { color: #b00020; }
+        label { display: block; margin-bottom: 0.3rem; }
+        input, textarea { width: 100%; padding: 0.5rem; }
+        button { padding: 0.6rem 1rem; }
+    </style>
+</head>
+<body>
+<h1 th:text="${editing} ? 'Editar cita medica' : 'Solicitar nueva cita medica'"></h1>
+
+<p><a th:href="@{/paciente/citas}">Volver al listado</a></p>
+
+<div class="card">
+    <form th:action="${editing} ? @{'/paciente/citas/' + ${citaId} + '/editar'} : @{/paciente/citas/nueva}"
+          th:object="${citaForm}" method="post">
+
+        <div class="row">
+            <label for="fecha">Fecha</label>
+            <input id="fecha" type="date" th:field="*{fecha}" required>
+            <small class="error" th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}"></small>
+        </div>
+
+        <div class="row">
+            <label for="hora">Hora</label>
+            <input id="hora" type="time" th:field="*{hora}" required>
+            <small class="error" th:if="${#fields.hasErrors('hora')}" th:errors="*{hora}"></small>
+        </div>
+
+        <div class="row">
+            <label for="especialidad">Especialidad</label>
+            <input id="especialidad" type="text" th:field="*{especialidad}" required>
+            <small class="error" th:if="${#fields.hasErrors('especialidad')}" th:errors="*{especialidad}"></small>
+        </div>
+
+        <div class="row">
+            <label for="descripcion">Descripcion</label>
+            <textarea id="descripcion" th:field="*{descripcion}" rows="4"></textarea>
+        </div>
+
+        <button type="submit" th:text="${editing} ? 'Guardar cambios' : 'Crear cita'"></button>
+    </form>
+</div>
+</body>
+</html>
